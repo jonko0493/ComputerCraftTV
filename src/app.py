@@ -34,15 +34,18 @@ def tv_guide():
 
 @app.route("/channel/<channel>/256")
 def channel_img_256(channel):
-    image = os.path.join("..", "channels", channel, "img256", f"{channels[channel]['timer']:05d}.png")
+    image = os.path.join("channels", channel, "img256", f"{channels[channel]['timer']:05d}.png")
     return send_file(image, mimetype='image/png')
 
 @app.route("/channel/<channel>/512")
 def channel_img_512(channel):
-    image = os.path.join("..", "channels", channel, "img512", f"{channels[channel]['timer']:05d}.png")
+    image = os.path.join("channels", channel, "img512", f"{channels[channel]['timer']:05d}.png")
     return send_file(image, mimetype='image/png')
 
 @app.route("/channel/<channel>/audio")
 def channel_audio(channel):
-    audio = os.path.join("..", "channels", channel, "audio", f"{channels[channel]['timer'] - 1:05d}.wav.dfpwm")
+    audio = os.path.join("channels", channel, "audio", f"{channels[channel]['timer'] - 1:05d}.wav.dfpwm")
     return send_file(audio, mimetype='binary')
+
+if __name__ == "__main__":
+    app.run()
