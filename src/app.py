@@ -22,7 +22,7 @@ def channel_tick():
             channels[channel]['timer'] = 1
 
 sched = BackgroundScheduler(daemon=True)
-sched.add_job(channel_tick,'interval',seconds=0.1)
+sched.add_job(channel_tick,'interval',seconds=0.333)
 sched.start()
 
 @app.route("/")

@@ -1,4 +1,4 @@
-name: Build & publish Haroohie images
+name: Build & publish ComputerCraft TV image
 on:
   workflow_dispatch:
   push:
