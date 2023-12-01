@@ -19,17 +19,11 @@ local function writeImageToScreen()
     end
     image = gpu.decodeImage(table.unpack(imgBin))
     gpu.drawBuffer(1, 1, px_w, 1, image.getAsBuffer())
+    image.free()
     gpu.sync()
 end
 
 local function downloadImage()    
-    -- local event, url, handle
-    -- if url ~= imgRequest.url then
-    --     event, url, handle = os.pullEvent("http_success")
-    --     if url == imgRequest.url then
-    --         nextImgBuf = handle
-    --     end
-    -- end
     nextImgBuf = http.get(imgRequest)
 end
 
