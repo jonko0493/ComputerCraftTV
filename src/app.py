@@ -22,7 +22,8 @@ def channel_tick():
             channels[channel]['timer'] = 1
 
 sched = BackgroundScheduler(daemon=True)
-sched.add_job(channel_tick,'interval',seconds=0.2)
+interval = float(os.environ['TV_REFRESH_INTERVAL'])
+sched.add_job(channel_tick,'interval',seconds=interval)
 sched.start()
 
 @app.route("/")
