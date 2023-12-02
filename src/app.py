@@ -12,7 +12,9 @@ for dir in dirs:
     channel['title'] = nfo.readline()
     channel['episode'] = nfo.readline()
     channel['timer'] = 1
-    channel['max_ticks'] = int(os.path.splitext(os.listdir(os.path.join("channels", dir, "img256"))[-1])[0])
+    ls = os.listdir(os.path.join("channels", dir, "img256"))
+    ls.sort()
+    channel['max_ticks'] = int(os.path.splitext(ls[-1])[0])
     channels[dir] = channel
     print("\n".join(f"{k}, {v}" for k,v in channel.items()))
     print("\n")
