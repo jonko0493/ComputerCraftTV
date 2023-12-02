@@ -14,7 +14,7 @@ for dir in dirs:
     channel['timer'] = 1
     channel['max_ticks'] = int(os.path.splitext(os.listdir(os.path.join("channels", dir, "img256"))[-1])[0])
     channels[dir] = channel
-    print("\n".join(f"{k}, {v}") for k,v in channel.items())
+    print("\n".join(f"{k}, {v}" for k,v in channel.items()))
     print("\n")
 
 def channel_tick():
