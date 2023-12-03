@@ -1,4 +1,4 @@
-from flask import Flask, send_file
+from flask import Flask, request, send_file
 from apscheduler.schedulers.background import BackgroundScheduler
 import os
 
@@ -12,6 +12,7 @@ for dir in dirs:
     channel['title'] = nfo.readline()
     channel['episode'] = nfo.readline()
     channel['timer'] = 1
+    channel['send_audio'] = {}
     ls = os.listdir(os.path.join("channels", dir, "img256"))
     ls.sort()
     channel['max_ticks'] = int(os.path.splitext(ls[-1])[0])
@@ -24,6 +25,8 @@ def channel_tick():
         channels[channel]['timer'] += 1
         if channels[channel]['timer'] > channels[channel]['max_ticks']:
             channels[channel]['timer'] = 1
+        for client in channels[channel]['send_audio']:
+            channels[channel]['send_audio'][client] = True
 
 sched = BackgroundScheduler(daemon=True)
 interval = float(os.environ['TV_REFRESH_INTERVAL'])
@@ -49,8 +52,12 @@ def channel_img_512(channel):
 
 @app.route("/channel/<channel>/audio")
 def channel_audio(channel):
-    audio = os.path.join("channels", channel, "audio", f"{channels[channel]['timer'] - 1:05d}.wav.dfpwm")
-    return send_file(audio, mimetype='binary')
+    client_id = request.headers.get('Client-ID')
+    if client_id and (client_id not in channels[channel]['send_audio'].keys() or channels[channel]['send_audio'][client_id]):
+        channels[channel]['send_audio'][client_id] = False
+        audio = os.path.join("channels", channel, "audio", f"{channels[channel]['timer'] - 1:05d}.wav.dfpwm")
+        return send_file(audio, mimetype='binary')
+    return ''
 
 if __name__ == "__main__":
     app.run()
