@@ -56,7 +56,7 @@ def channel_audio(channel):
     client_id = request.headers.get('Client-ID')
     if client_id and (client_id not in channels[channel]['send_audio'].keys() or channels[channel]['send_audio'][client_id]):
         channels[channel]['send_audio'][client_id] = False
-        audio = os.path.join("channels", channel, "audio", f"{(channels[channel]['timer'] + (int(os.environ['AUDIO_MOD']) - 1)) / int(os.environ['AUDIO_MOD']) - 1:05d}.wav.dfpwm")
+        audio = os.path.join("channels", channel, "audio", f"{int((channels[channel]['timer'] + (int(os.environ['AUDIO_MOD']) - 1)) / int(os.environ['AUDIO_MOD'])) - 1:05d}.wav.dfpwm")
         return send_file(audio, mimetype='binary')
     return ''
 
